@@ -10,7 +10,8 @@
   transition-duration: .3s;
   cursor: pointer;
   position: relative;
-  flex-direction: column
+  flex-direction: column;
+  box-sizing: border-box;
 ;
   &:hover{
     transform: scale(1.1);

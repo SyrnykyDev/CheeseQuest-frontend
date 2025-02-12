@@ -12,8 +12,11 @@ import Input from "../../components/Input/Input.tsx";
 import Loader from "../../components/Loader/Loader.tsx";
 import MotionWrapper from "../../components/MotionWrapper/MotionWrapper.tsx";
 import QuestBlock from "../../components/QuestBlock/QuestBlock.tsx";
+import { addNotification } from "../../store/userSlice.ts";
+import { useDispatch } from "react-redux";
 
 const Profile = () => {
+  const dispatch = useDispatch();
   // const user = useSelector((state: RootState) => state.user);
   const token = localStorage.getItem("Authorization");
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -51,6 +54,20 @@ const Profile = () => {
       .then((resp) => {
         onGetUser();
         setIsEditing(false);
+        dispatch(
+          addNotification({
+            type: "success",
+            message: "You have successfully changed your profile",
+          }),
+        );
+      })
+      .catch(() => {
+        dispatch(
+          addNotification({
+            type: "error",
+            message: "Something went wrong...",
+          }),
+        );
       })
       .finally(() => {
         setLoading(false);

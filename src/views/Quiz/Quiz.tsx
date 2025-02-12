@@ -11,20 +11,32 @@ import { isFavouriteCheck, onAddFavourite } from "../../utils/favourite.tsx";
 import Input from "../../components/Input/Input.tsx";
 import { useDispatch } from "react-redux";
 import { addNotification } from "../../store/userSlice.ts";
+import QuizContainer from "./Quiz.container.ts";
 let timeout: NodeJS.Timeout;
 
 const Quiz = () => {
   const token = localStorage.getItem("Authorization");
   const dispatch = useDispatch();
+  const {
+    states: {
+      loading,
+      quiz,
+      commentText,
+      reviews,
+      seconds,
+      isFavourite,
+      params,
+    },
+    functions: {
+      setLoading,
+      setQuiz,
+      setCommentText,
+      setReviews,
+      setIsFavourite,
+      setSeconds,
+    },
+  } = QuizContainer();
 
-  const [quiz, setQuiz] = useState<any>();
-  const [loading, setLoading] = useState<any>(false);
-  const [commentText, setCommentText] = useState<any>("");
-  const [reviews, setReviews] = useState<any>();
-  const [isFavourite, setIsFavourite] = useState(false);
-  const params = useParams();
-  const [seconds, setSeconds] = useState<number>(null);
-  // const [];
   const onCommentAdd = () => {
     setLoading(true);
     axios
@@ -210,7 +222,7 @@ const Quiz = () => {
                     }}
                   >
                     <img
-                      src={elem?.user?.avatar}
+                      src={elem?.avatar}
                       style={{
                         width: "70px",
                         height: "70px",
@@ -219,10 +231,10 @@ const Quiz = () => {
                         marginRight: "10px",
                       }}
                     />
-                    <div>{elem?.user?.email}</div>
+                    <div>{elem?.username}</div>
                   </div>
                   <div style={{ margin: "10px 10px 10px 10px" }}>
-                    {elem.text}
+                    {elem.message}
                   </div>
                 </div>
               ))}

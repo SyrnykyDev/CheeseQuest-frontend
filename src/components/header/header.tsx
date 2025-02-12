@@ -41,7 +41,9 @@ const Header = () => {
                 >
                   Author Leaderboard
                 </Button>
-                <Button>Register</Button>
+                <Link href={"/register"}>
+                  <Button>Register</Button>
+                </Link>
                 <Link href={"/login"}>
                   <Button buttonColor={"blue"}>Log In</Button>
                 </Link>

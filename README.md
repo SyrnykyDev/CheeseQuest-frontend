@@ -1,12 +1,14 @@
-# CHESE
+# Cheese Quest
 
 This project created with ReactJs
 
 ## Available Routes
 
 - /login
-- / (home) (private)
-- /user (private)
+- /register
+- / (home) 
+- /authorLeaderboard
+- /profile (private)
 
 ## Project Structure
 
@@ -14,7 +16,7 @@ This project created with ReactJs
 - src
     - assets (svg / png / ico)
     - components
-        - base (all basic components like Input / Button / Link (extended) / TextArea)
+        - (all basic components like Input / Button / Link (extended) / TextArea)
         - Wrapper (It will wrap every route. Wrapper has Notification / loader / Header / Footer logic)
         - (...Other components)
     - router

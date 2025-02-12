@@ -5,18 +5,20 @@ import React, { StrictMode } from "react";
 import Routes from "./router/routes.tsx";
 import { store } from "./store/store.ts";
 import { Provider } from "react-redux";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const root = ReactDOM.createRoot(
-    document.getElementById("root") as HTMLElement,
+  document.getElementById("root") as HTMLElement,
 );
 root.render(
-    <StrictMode>
-        {/*---REDUX---*/}
-        <Provider store={store}>
-            {/*--- REACT ROUTER ---*/}
-            <Routes />
-        </Provider>
-    </StrictMode>,
+  // <GoogleOAuthProvider>.
+  <StrictMode>
+    {/*---REDUX---*/}
+    <Provider store={store}>
+      {/*--- REACT ROUTER ---*/}
+      <Routes />
+    </Provider>
+  </StrictMode>,
 );
 
 // If you want to start measuring performance in your app, pass a function

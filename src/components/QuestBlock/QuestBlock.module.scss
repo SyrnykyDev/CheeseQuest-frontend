@@ -1,0 +1,21 @@
+.questBlock{
+  width: 100%;
+  min-height: 120px;
+  height: max-content;
+  padding: 10px 20px;
+  border-radius: 12px;
+  display: flex;
+  background-color: #e8e3dd;
+  box-shadow: 3px 3px 3px 3px #cfc1ac;
+  transition-duration: .3s;
+  cursor: pointer;
+  position: relative;
+  flex-direction: column
+;
+  &:hover{
+    transform: scale(1.1);
+  }
+  &_banner{
+    border-radius: 10px;
+  }
+}

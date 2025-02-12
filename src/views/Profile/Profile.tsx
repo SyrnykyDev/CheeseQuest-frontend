@@ -9,9 +9,9 @@ import profileTest from "../../assets/profileTest.jpg";
 import QuizQuestion from "../../components/QuizQuestion/QuizQuestion";
 import axios from "axios";
 import Input from "../../components/Input/Input.tsx";
-import { Form } from "formik";
 import Loader from "../../components/Loader/Loader.tsx";
 import MotionWrapper from "../../components/MotionWrapper/MotionWrapper.tsx";
+import QuestBlock from "../../components/QuestBlock/QuestBlock.tsx";
 
 const Profile = () => {
   // const user = useSelector((state: RootState) => state.user);
@@ -38,7 +38,6 @@ const Profile = () => {
   };
 
   const onUserPost = () => {
-    // alert();
     const formData = new FormData();
     formData.append("username", editedUser);
     formData.append("file", imageFile);
@@ -52,7 +51,6 @@ const Profile = () => {
       .then((resp) => {
         onGetUser();
         setIsEditing(false);
-        // if (resp.data) setUser(resp.data.user);
       })
       .finally(() => {
         setLoading(false);
@@ -166,12 +164,38 @@ const Profile = () => {
             ))}
           </div>
           <div className={styles.profile_container}>
-            <QuizQuestion title={"Test"} id={0} />
-            <QuizQuestion title={"Test"} id={0} />
-            <QuizQuestion title={"Test"} id={0} />
-            <QuizQuestion title={"Test"} id={0} />
-            <QuizQuestion title={"Test"} id={0} />
-            <QuizQuestion title={"Test"} id={0} />
+            <QuestBlock
+              name={"test"}
+              description={"test descriptin, some text"}
+            />
+            <QuestBlock
+              name={"test"}
+              description={"test descriptin, some text"}
+            />
+            <QuestBlock
+              name={"test"}
+              description={"test descriptin, some text"}
+            />
+            <QuestBlock
+              name={"test"}
+              description={"test descriptin, some text"}
+            />
+            <QuestBlock
+              name={"test"}
+              description={"test descriptin, some text"}
+            />
+            <QuestBlock
+              name={"test"}
+              description={"test descriptin, some text"}
+            />
+            <QuestBlock
+              name={"test"}
+              description={"test descriptin, some text"}
+            />
+            <QuestBlock
+              name={"test"}
+              description={"test descriptin, some text"}
+            />
           </div>
         </>
       </div>

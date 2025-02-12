@@ -4,6 +4,7 @@ import Footer from "../Footer/Footer";
 
 // *** STYLES ***
 import styles from "./wrapper.module.scss";
+import NotificationController from "../Notification/NotificationController.tsx";
 
 interface WrapperProps {
   children: ReactNode;
@@ -22,6 +23,8 @@ const Wrapper = ({ children, header = true, footer = true }: WrapperProps) => {
   return (
     <div className={styles.wrapper}>
       {header && <Header />}
+
+      <NotificationController />
       <div className={styles.wrapper_content}>{children}</div>
       {footer && <Footer />}
     </div>

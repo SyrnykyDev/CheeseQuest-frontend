@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import RandomNumber from "../../utils/randomNumber";
 import axios from "axios";
 
@@ -7,7 +7,7 @@ export type questionTypes =
   | "testQuestions"
   | "imageObjectSearch";
 interface IQuestion {
-  title?: string;
+  question?: string;
   id: number;
   description?: string;
   timer?: number;
@@ -18,6 +18,8 @@ interface IQuestion {
 }
 const EditQuizContainer = () => {
   const token = localStorage.getItem("Authorization");
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [activeQuestion, setActiveQuestion] = useState<null | number>(null);
   const [questions, setQuestions] = useState<IQuestion[]>([
@@ -37,7 +39,7 @@ const EditQuizContainer = () => {
     setQuestions([
       ...questions,
       {
-        title: "",
+        question: "",
         id: RandomNumber(),
         description: "",
         position: questions.length + 1,
@@ -47,6 +49,15 @@ const EditQuizContainer = () => {
 
   const onSelectQuestion = (id: number) => {
     setActiveQuestion(id);
+  };
+  const updateImage = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      setImageFile(file);
+    }
+  };
+  const handleImageUploadClick = () => {
+    fileInputRef.current?.click();
   };
 
   const onQuestionDelete = (id: number) => {
@@ -64,7 +75,7 @@ const EditQuizContainer = () => {
     let editableQuestion = questions.find((elem) => elem.id == activeQuestion);
     editableQuestion = { ...editableQuestion, [key]: value };
     editableQuestion.dirty = true;
-    if (editableQuestion?.description && editableQuestion?.title) {
+    if (editableQuestion?.description && editableQuestion?.question) {
       editableQuestion.filled = true;
     } else {
       editableQuestion.filled = false;
@@ -91,12 +102,27 @@ const EditQuizContainer = () => {
   };
 
   const onCreateQuiz = () => {
+    const formData = new FormData();
+
+    formData.append("name", "TITLE Dmytro");
+    formData.append("description", "Description");
+    let array = [
+      { media: imageFile, question: "q", answer: "a", type: "t" },
+      { media: imageFile, question: "q", answer: "a", type: "t" },
+    ];
+    array.forEach((elem, index) => {
+      // formData.append("");
+    });
     axios
       .post(
         process.env.REACT_APP_SERVER_HOST + "/api/quest/create",
         {
           name: "TITLE Dmytro",
           description: "Description",
+          tasks: [
+            { media: imageFile, question: "q", answer: "a", type: "t" },
+            { media: imageFile, question: "q", answer: "a", type: "t" },
+          ],
         },
         {
           headers: {
@@ -116,8 +142,10 @@ const EditQuizContainer = () => {
       onQuestionChange,
       onQuestionTypeChange,
       onCreateQuiz,
+      updateImage,
+      handleImageUploadClick,
     },
-    states: { questions, activeQuestion },
+    states: { questions, activeQuestion, fileInputRef },
   };
 };
 

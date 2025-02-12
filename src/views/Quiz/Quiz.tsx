@@ -1,0 +1,268 @@
+import React, { useEffect, useState } from "react";
+import BubbleWrapper from "../../components/BubbleWrapper/BubbleWrapper.tsx";
+import axios from "axios";
+import { useNavigate, useParams } from "react-router";
+import Button from "../../components/Button/Button.tsx";
+// *** ASSETS ***
+import bannerPNG from "../../assets/Shareable-Quizzes-In-Online-Training-7-Reasons.webp";
+import starPNG from "../../assets/star.png";
+import filledStarPNG from "../../assets/star (1).png";
+import { isFavouriteCheck, onAddFavourite } from "../../utils/favourite.tsx";
+import Input from "../../components/Input/Input.tsx";
+import { useDispatch } from "react-redux";
+import { addNotification } from "../../store/userSlice.ts";
+let timeout: NodeJS.Timeout;
+
+const Quiz = () => {
+  const token = localStorage.getItem("Authorization");
+  const dispatch = useDispatch();
+
+  const [quiz, setQuiz] = useState<any>();
+  const [loading, setLoading] = useState<any>(false);
+  const [commentText, setCommentText] = useState<any>("");
+  const [reviews, setReviews] = useState<any>();
+  const [isFavourite, setIsFavourite] = useState(false);
+  const params = useParams();
+  const [seconds, setSeconds] = useState<number>(null);
+  // const [];
+  const onCommentAdd = () => {
+    setLoading(true);
+    axios
+      .post(
+        process.env.REACT_APP_SERVER_HOST + "/api/review/createReview",
+        {
+          message: commentText,
+          questId: params?.id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      )
+      .then(() => {
+        setCommentText("");
+        onLoadQuiz();
+        dispatch(
+          addNotification({
+            type: "success",
+            message: "Comment sent successfully",
+          }),
+        );
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+  // message questId
+  useEffect(() => {
+    if (seconds > 0) {
+      timeout = setTimeout(() => {
+        setSeconds((state) => state - 1);
+      }, 1000);
+    } else {
+      clearTimeout(timeout);
+    }
+  }, [seconds]);
+
+  const onLoadQuiz = () => {
+    axios
+      .get(process.env.REACT_APP_SERVER_HOST + "/api/quest/" + params?.id)
+      .then((resp) => {
+        console.log(resp.data);
+        setQuiz(resp.data?.quest);
+        console.log(resp.data?.reviews);
+        setReviews(resp.data?.reviews);
+      });
+  };
+  useEffect(() => {
+    onLoadQuiz();
+  }, []);
+
+  const onChangeFavourite = (value) => {
+    setIsFavourite(value);
+  };
+  useEffect(() => {
+    quiz && isFavouriteCheck(quiz?.id, onChangeFavourite);
+  }, [isFavourite, quiz]);
+  const navigate = useNavigate();
+
+  return (
+    <BubbleWrapper>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          position: "relative",
+          width: "100%",
+          minHeight: "50vh",
+        }}
+      >
+        <h1>{quiz?.name}</h1>
+        <div style={{ width: "100%", display: "flex" }}>
+          <img src={bannerPNG} style={{ width: "40%", margin: "auto" }} />
+        </div>
+        <span>{quiz?.description}</span>
+        <div
+          style={{
+            boxShadow: "3px 3px 3px 3px gray",
+            padding: "0px 20px 30px 20px",
+            display: "flex",
+            marginTop: "15px",
+            marginBottom: "20px",
+            flexDirection: "column",
+          }}
+        >
+          <h2>Author:</h2>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              fontSize: "20px",
+              gap: "20px",
+            }}
+          >
+            <img
+              src={quiz?.user?.avatar}
+              width={100}
+              height={100}
+              style={{ borderRadius: "5px", objectFit: "cover" }}
+            />
+            <div>
+              Username: <b>{quiz?.user?.username}</b>
+            </div>
+            <div>
+              Email: <b>{quiz?.user?.email}</b>
+            </div>
+          </div>
+        </div>
+
+        <div></div>
+        <span
+          style={{
+            position: "absolute",
+            right: "10px",
+            top: "10px",
+            fontSize: "30px",
+            alignItems: "center",
+            display: "flex",
+          }}
+        >
+          <img
+            style={{ marginRight: "20px", cursor: "pointer" }}
+            src={isFavourite ? filledStarPNG : starPNG}
+            onClick={() => {
+              onAddFavourite(quiz?.id, onChangeFavourite);
+            }}
+            width={40}
+          />
+          Rating: <b>{quiz?.rating}</b>
+        </span>
+
+        <div
+          style={{
+            display: "flex",
+            gap: "10px",
+            paddingTop: "30p",
+            margin: "auto 20px 20px auto",
+          }}
+        >
+          <Button>Start Quest</Button>
+          <Button
+            buttonColor={"blue"}
+            onClick={() => {
+              navigate(`/editQuiz/${quiz.id}`);
+            }}
+          >
+            Edit Quest
+          </Button>
+          <Button buttonColor={"red"}>Delete Quest</Button>
+        </div>
+        {/*--- COMMENTS ---*/}
+        <div
+          style={{
+            padding: "20px",
+            width: "100%",
+            minHeight: "100px",
+            // backgroundColor: "white",
+            boxSizing: "border-box",
+            display: "flex",
+            flexDirection: "column",
+            boxShadow: "3px 3px 3px 3px gray",
+          }}
+        >
+          {reviews?.length >= 1 ? (
+            <div>
+              {reviews?.map((elem, index) => (
+                <div
+                  key={index}
+                  style={{
+                    margin: "30px 15px",
+                    boxShadow: "3px 3px 3px gray",
+                    padding: "10px",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      fontSize: "20px",
+                    }}
+                  >
+                    <img
+                      src={elem?.user?.avatar}
+                      style={{
+                        width: "70px",
+                        height: "70px",
+                        objectFit: "cover",
+                        borderRadius: "5px",
+                        marginRight: "10px",
+                      }}
+                    />
+                    <div>{elem?.user?.email}</div>
+                  </div>
+                  <div style={{ margin: "10px 10px 10px 10px" }}>
+                    {elem.text}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <span style={{ margin: "auto", fontSize: "20px" }}>
+              No comments yet. Be first!
+            </span>
+          )}
+
+          <div
+            style={{
+              display: "flex",
+              width: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "10px",
+              marginTop: "20px",
+            }}
+          >
+            <Input
+              placeholder={"Add a comment..."}
+              textField
+              width={100}
+              value={commentText}
+              onChange={(event) => setCommentText(event.target?.value)}
+            />
+            <Button
+              onClick={() => {
+                onCommentAdd();
+              }}
+              loading={loading}
+            >
+              Send
+            </Button>
+          </div>
+        </div>
+      </div>
+    </BubbleWrapper>
+  );
+};
+
+export default Quiz;

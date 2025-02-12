@@ -12,8 +12,10 @@ import Link from "../Link/Link.tsx";
 // import { RootState } from "../../../../../Jakob/my-app/src/store/store.ts";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store.ts";
-import { authUser } from "../../store/userSlice.ts";
+import { addNotification, authUser } from "../../store/userSlice.ts";
 import { useNavigate } from "react-router";
+import Loader from "../Loader/Loader.tsx";
+import MotionWrapper from "../MotionWrapper/MotionWrapper.tsx";
 
 // import { authUser } from "../../../../../Jakob/my-app/src/store/userSlice.ts";
 
@@ -31,18 +33,32 @@ const Header = () => {
         <div className={styles.header_rightPart}>
           {user.firstFetch ? (
             !user.isAuthenticated ? (
-              <>
-                <Button>Sign In</Button>
+              <MotionWrapper style={{ display: "flex", gap: "10px" }}>
+                <Button
+                  onClick={() => {
+                    navigate("/authorLeaderboard");
+                  }}
+                >
+                  Author Leaderboard
+                </Button>
+                <Button>Register</Button>
                 <Link href={"/login"}>
                   <Button buttonColor={"blue"}>Log In</Button>
                 </Link>
-              </>
+              </MotionWrapper>
             ) : (
               <>
                 <div
                   style={{ display: "flex", gap: "10px" }}
                   className={styles.header_rightPart_logout}
                 >
+                  <Button
+                    onClick={() => {
+                      navigate("/authorLeaderboard");
+                    }}
+                  >
+                    Author Leaderboard
+                  </Button>
                   <Button
                     onClick={() => {
                       navigate("/createQuiz");
@@ -63,6 +79,12 @@ const Header = () => {
                       localStorage.removeItem("Authorization");
                       // @ts-ignore
                       dispatch(authUser());
+                      dispatch(
+                        addNotification({
+                          type: "success",
+                          message: "You have successfully logged out.",
+                        }),
+                      );
                     }}
                   >
                     Logout
@@ -76,7 +98,9 @@ const Header = () => {
               </>
             )
           ) : (
-            <></>
+            <>
+              <Loader />
+            </>
           )}
           {/*<Button>Sign In</Button>*/}
         </div>

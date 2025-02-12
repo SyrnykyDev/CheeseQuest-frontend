@@ -46,7 +46,7 @@ const Login = () => {
     >
       {({ values, handleChange, handleSubmit, dirty }) => (
         <MotionWrapper>
-          <Form style={{ margin: "auto" }}>
+          <Form style={{ margin: "auto", overflow: "hidden" }}>
             <SansWrapper centered>
               <h1 style={{ color: "black" }}>Sign In</h1>
               <Button buttonColor={"gray"} onClick={onGoogleLogin}>
@@ -74,7 +74,7 @@ const Login = () => {
                 onChange={handleChange}
                 value={values.password}
               />
-              <Button buttonColor={"gray"} type="submit">
+              <Button buttonColor={"gray"} type="submit" loading={loading}>
                 Continue with email
               </Button>
 

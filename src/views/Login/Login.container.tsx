@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { authUser } from "../../store/userSlice.ts";
+import { addNotification, authUser } from "../../store/userSlice.ts";
 import { useDispatch } from "react-redux";
 const LoginContainer = () => {
   const [loading, setLoading] = useState(false);
@@ -15,6 +15,8 @@ const LoginContainer = () => {
     // );
   };
   const onLogin = (values: any) => {
+    setLoading(true);
+
     axios
       .post(process.env.REACT_APP_SERVER_HOST + "/api/auth/login", values, {
         headers: {
@@ -31,10 +33,22 @@ const LoginContainer = () => {
           dispatch(authUser());
           setTimeout(() => {
             navigate("/profile");
-          }, 100);
+          }, 300);
+          dispatch(
+            addNotification({
+              type: "success",
+              message: "You have logged in successfully!",
+            }),
+          );
         }
       })
       .catch(() => {
+        dispatch(
+          addNotification({
+            type: "error",
+            message: "Something went wrong...",
+          }),
+        );
         // dispatch(
         //   addNotification({
         //     message: resp.response.data.message,
@@ -45,7 +59,7 @@ const LoginContainer = () => {
         // console.log("errorMessage", resp.response.data.message);
       })
       .finally(() => {
-        setLoading(true);
+        setLoading(false);
       });
   };
   return {

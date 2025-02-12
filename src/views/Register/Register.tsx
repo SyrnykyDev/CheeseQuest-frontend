@@ -85,7 +85,7 @@ const Register = () => {
                   <Button buttonColor={"blue"}>Log In</Button>
                 </Link>
                 <b>-</b>
-                <Button buttonColor={"green"} type="submit">
+                <Button buttonColor={"green"} type="submit" loading={loading}>
                   Register
                 </Button>
               </div>

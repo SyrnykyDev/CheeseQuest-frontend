@@ -11,6 +11,8 @@ interface InputProps extends React.InputHTMLAttributes<any> {
   required?: boolean;
   isText?: boolean;
   textedInput?: string;
+  textField?: boolean;
+  onChange?: (value: any) => any;
 }
 
 /**
@@ -21,6 +23,7 @@ const Input = (props: InputProps) => {
     onChange,
     required,
     isText,
+    textField: textArea,
     inputType = "sans",
     ...otherProps
   } = props;
@@ -58,6 +61,16 @@ const Input = (props: InputProps) => {
 
       {isText ? (
         <span>{otherProps?.textedInput}</span>
+      ) : textArea ? (
+        <textarea
+          className={`${styles.input_input} ${change ? styles.input_anim : ""}`}
+          {...otherProps}
+          placeholder={
+            props?.placeholder && `${props?.placeholder} ${required ? "*" : ""}`
+          }
+          value={props.value || ""}
+          onChange={onMiddleChange}
+        />
       ) : (
         <input
           className={`${styles.input_input} ${change ? styles.input_anim : ""}`}

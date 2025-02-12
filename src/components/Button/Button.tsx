@@ -6,7 +6,7 @@ import Loader from "../Loader/Loader.tsx";
 
 interface ButtonProps extends React.HTMLProps<HTMLButtonElement> {
   buttonType?: "sans" | "round";
-  buttonColor?: "green" | "blue" | "orange" | "gray";
+  buttonColor?: "green" | "blue" | "orange" | "gray" | "red";
   active?: boolean;
   loading?: boolean;
 }

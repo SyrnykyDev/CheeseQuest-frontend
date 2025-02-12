@@ -10,6 +10,9 @@ import Register from "../views/Register/Register.tsx";
 import Profile from "../views/Profile/Profile.tsx";
 import CreateQuiz from "../views/CreateQuiz/CreateQuiz.tsx";
 import Home from "../views/Home/Home.tsx";
+import Quiz from "../views/Quiz/Quiz.tsx";
+import EditQuiz from "../views/EditQuiz/EditQuiz.tsx";
+import AuthorLeaderboard from "../views/AuthorLeaderboard/AuthorLeaderboard.tsx";
 
 const Routes = () => {
   const dispatch = useDispatch();
@@ -43,6 +46,22 @@ const Routes = () => {
             }
           />
           <Route
+            path="/quiz/:id"
+            element={
+              <>
+                <Quiz />
+              </>
+            }
+          />
+          <Route
+            path="/authorLeaderboard"
+            element={
+              <>
+                <AuthorLeaderboard />
+              </>
+            }
+          />
+          <Route
             path="/"
             element={
               <>
@@ -55,6 +74,7 @@ const Routes = () => {
           <Route element={<PrivateRoute />}>
             <Route path="/profile" element={<Profile />} />
             <Route path="/createQuiz" element={<CreateQuiz />} />
+            <Route path="/editQuiz/:id" element={<EditQuiz />} />
           </Route>
         </ReactRoutes>
       </Wrapper>

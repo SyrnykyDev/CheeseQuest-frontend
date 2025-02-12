@@ -30,6 +30,19 @@
       }
     }
 
+    &_red{
+      background-color: #ec6b6b;
+      box-shadow: inset 0 -6px 0.1px rgba(211, 109, 109, 0.78);
+      //color: white;
+
+      &:hover{
+        background-color: #e35353;
+
+        transition-duration: .3s;
+        box-shadow: inset 0 -8px 0.1px #bf4f4f;
+
+      }
+    }
     &_blue{
       background-color: #82B9ED;
       box-shadow: inset 0 -6px 0.1px #6a98c3;

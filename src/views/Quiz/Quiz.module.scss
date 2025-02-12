@@ -1,0 +1,23 @@
+.quiz{
+
+
+  transition-duration: .3s;
+  display: flex;
+  width: 100%;
+  //opacity: 1;
+  transform: scale(1);
+  box-sizing: border-box;
+  height: 100%;
+  &__active{
+    transition-duration: .3s;
+
+    //opacity: 1;
+    transform: scale(1);
+  }
+  &__inactive{
+    transition-duration: .3s;
+    //opacity: 0;
+    transform: scale(0);
+
+  }
+}

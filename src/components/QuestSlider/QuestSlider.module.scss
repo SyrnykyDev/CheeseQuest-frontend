@@ -1,5 +1,6 @@
 .questSlider{
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr ;
   gap: 20px;
   //background-color: #b6b6b6;
   box-shadow: 3px 3px 3px 3px rgba(128, 128, 128, 0.45);
@@ -7,4 +8,6 @@
   padding: 20px;
   width: 100%;
   height: max-content;
+  box-sizing: content-box;
+
 }

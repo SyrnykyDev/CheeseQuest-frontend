@@ -1,11 +1,10 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import RandomNumber from "../../utils/randomNumber";
 import axios from "axios";
+import { addNotification } from "../../store/userSlice.ts";
+import { useDispatch } from "react-redux";
 
-export type questionTypes =
-  | "openAnswers"
-  | "testQuestions"
-  | "imageObjectSearch";
+export type questionTypes = "openAnswers" | "testQuestions";
 interface IQuestion {
   question?: string;
   id: number;
@@ -17,34 +16,46 @@ interface IQuestion {
   type?: questionTypes;
 }
 const EditQuizContainer = () => {
+  const dispatch = useDispatch();
+  const [questName, setQuestName] = useState("");
+  const [questDesc, setDesc] = useState("");
   const token = localStorage.getItem("Authorization");
   const [imageFile, setImageFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [loading, setLoading] = useState(false);
 
   const [activeQuestion, setActiveQuestion] = useState<null | number>(null);
-  const [questions, setQuestions] = useState<IQuestion[]>([
-    // {
-    //   id: 134,
-    //   description: "tesst",
-    //   title: "TitleTest",
-    //   position: 1,
-    // },
-  ]);
+  const [questions, setQuestions] = useState<IQuestion[]>([]);
+  const [createdQuestId, setCreatedQuestId] = useState(null);
 
   useEffect(() => {
     if (!questions.find((elem) => elem.id == activeQuestion))
       setActiveQuestion(null);
   }, [questions]);
-  const onAddQuestion = () => {
-    setQuestions([
-      ...questions,
-      {
-        question: "",
-        id: RandomNumber(),
-        description: "",
-        position: questions.length + 1,
-      },
-    ]);
+
+  const onAddQuestion = (value: boolean) => {
+    if (value) {
+      setQuestions([
+        ...questions,
+        {
+          question: "",
+          id: RandomNumber(),
+          description: "",
+          position: questions.length + 1,
+        },
+      ]);
+    } else {
+      if (!createdQuestId) return;
+      setQuestions([
+        ...questions,
+        {
+          question: "",
+          id: RandomNumber(),
+          description: "",
+          position: questions.length + 1,
+        },
+      ]);
+    }
   };
 
   const onSelectQuestion = (id: number) => {
@@ -101,37 +112,74 @@ const EditQuizContainer = () => {
     onQuestionChange("type", value);
   };
 
-  const onCreateQuiz = () => {
+  const onSaveQuiz = () => {
+    if (!createdQuestId || !imageFile) return;
     const formData = new FormData();
 
-    formData.append("name", "TITLE Dmytro");
-    formData.append("description", "Description");
-    let array = [
-      { media: imageFile, question: "q", answer: "a", type: "t" },
-      { media: imageFile, question: "q", answer: "a", type: "t" },
-    ];
-    array.forEach((elem, index) => {
-      // formData.append("");
-    });
+    formData.append("questId", createdQuestId);
+    formData.append("media", imageFile);
+    formData.append("type", questions[activeQuestion].type);
+    formData.append("question", questions[activeQuestion].question);
+    formData.append("answer", "[{},{},{},{},0]");
     axios
-      .post(
-        process.env.REACT_APP_SERVER_HOST + "/api/quest/create",
-        {
-          name: "TITLE Dmytro",
-          description: "Description",
-          tasks: [
-            { media: imageFile, question: "q", answer: "a", type: "t" },
-            { media: imageFile, question: "q", answer: "a", type: "t" },
-          ],
+      .post(process.env.REACT_APP_SERVER_HOST + "/api/task/create", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      )
+      })
       .then((resp) => {
         console.log(resp);
+        setCreatedQuestId(resp.data);
+
+        onAddQuestion(true);
+      })
+      .finally(() => {
+        setLoading(false);
+      })
+      .catch(() => {
+        dispatch(
+          addNotification({
+            type: "error",
+            message: "Sorry, quiz was not found...",
+          }),
+        );
+      });
+  };
+  const onCreateQuiz = () => {
+    setLoading(true);
+    const formData = new FormData();
+
+    formData.append("name", questName);
+    formData.append("description", questDesc);
+    formData.append("media", imageFile);
+    axios
+      .post(process.env.REACT_APP_SERVER_HOST + "/api/quest/create", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((resp) => {
+        console.log(resp);
+        setCreatedQuestId(resp.data);
+        dispatch(
+          addNotification({
+            type: "success",
+            message: "Now you can create a new task :)",
+          }),
+        );
+
+        onAddQuestion(true);
+      })
+      .finally(() => {
+        setLoading(false);
+      })
+      .catch(() => {
+        dispatch(
+          addNotification({
+            type: "error",
+            message: "Sorry, quiz was not found...",
+          }),
+        );
       });
   };
   return {
@@ -144,8 +192,19 @@ const EditQuizContainer = () => {
       onCreateQuiz,
       updateImage,
       handleImageUploadClick,
+      setQuestName,
+      setDesc,
+      onSaveQuiz,
     },
-    states: { questions, activeQuestion, fileInputRef },
+    states: {
+      questions,
+      activeQuestion,
+      fileInputRef,
+      questDesc,
+      questName,
+      createdQuestId,
+      loading,
+    },
   };
 };
 

@@ -13,6 +13,7 @@ export interface UserState {
   loading: boolean;
   searchText: string;
   searchResults: any[];
+  validated: boolean;
 }
 
 const initialState: UserState = {
@@ -25,6 +26,7 @@ const initialState: UserState = {
   userData: null,
   searchText: "",
   searchResults: [],
+  validated: false,
 };
 
 export const authUser = createAsyncThunk("users/fetchByIdStatus", async () => {

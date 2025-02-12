@@ -25,8 +25,19 @@ const EditQuiz = ({ type }: IEditQuizProps) => {
       onCreateQuiz,
       updateImage,
       handleImageUploadClick,
+      setQuestName,
+      setDesc,
+      onSaveQuiz,
     },
-    states: { questions, activeQuestion, fileInputRef },
+    states: {
+      questions,
+      activeQuestion,
+      fileInputRef,
+      questName,
+      questDesc,
+      createdQuestId,
+      loading,
+    },
   } = EditQuizContainer();
   return (
     <div className={styles.editQuiz}>
@@ -43,7 +54,7 @@ const EditQuiz = ({ type }: IEditQuizProps) => {
             <span style={{ marginBottom: "10px" }}>Questions</span>
             <div
               onClick={() => {
-                onAddQuestion();
+                onAddQuestion(false);
               }}
               style={{ cursor: "pointer" }}
             >
@@ -73,9 +84,34 @@ const EditQuiz = ({ type }: IEditQuizProps) => {
           >
             <h2 style={{ height: "10px" }}>Quest</h2>
             <div className={styles.editQuiz_params_container_inputs}>
-              <Input placeholder={"Quest name"} />
-              <Input placeholder={"Quest description"} textField />
-              <Button onClick={handleImageUploadClick}>Add image</Button>
+              <Input
+                placeholder={"Quest name"}
+                value={questName}
+                onChange={(event) => {
+                  setQuestName(event.target.value);
+                }}
+              />
+              <Input
+                placeholder={"Quest description"}
+                textField
+                disabled={createdQuestId}
+                value={questDesc}
+                onChange={(event) => {
+                  setDesc(event.target.value);
+                }}
+              />
+              <div style={{ display: "flex", gap: "10px" }}>
+                <Button onClick={handleImageUploadClick}>Add image</Button>
+                <Button
+                  disabled={createdQuestId}
+                  loading={loading}
+                  onClick={() => {
+                    onCreateQuiz();
+                  }}
+                >
+                  {type == "edit" ? "Edit" : "Create"}
+                </Button>
+              </div>
               {/*<Input placeholder={"Quest description"} textField />*/}
             </div>
           </div>
@@ -146,21 +182,21 @@ const EditQuiz = ({ type }: IEditQuizProps) => {
                   >
                     Test questions
                   </Button>
-                  <Button
-                    buttonType={"round"}
-                    onClick={() => onQuestionTypeChange("imageObjectSearch")}
-                    active={
-                      questions.find((elem) => elem.id == activeQuestion)
-                        ?.type === "imageObjectSearch"
-                    }
-                  >
-                    Search for objects in the image
-                  </Button>
+                  {/*<Button*/}
+                  {/*  buttonType={"round"}*/}
+                  {/*  onClick={() => onQuestionTypeChange("imageObjectSearch")}*/}
+                  {/*  active={*/}
+                  {/*    questions.find((elem) => elem.id == activeQuestion)*/}
+                  {/*      ?.type === "imageObjectSearch"*/}
+                  {/*  }*/}
+                  {/*>*/}
+                  {/*  Search for objects in the image*/}
+                  {/*</Button>*/}
                 </div>
                 <div style={{ margin: "auto 10px auto auto" }}>
                   <Button
                     onClick={() => {
-                      onCreateQuiz();
+                      onSaveQuiz();
                     }}
                   >
                     {type == "edit" ? "Edit" : "Create"}

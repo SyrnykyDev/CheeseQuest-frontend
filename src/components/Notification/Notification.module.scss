@@ -1,0 +1,31 @@
+.controller {
+  position: fixed;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 2;
+}
+.notification {
+  min-width: 140px;
+  max-width: 200px;
+  min-height: 40px;
+  max-height: 180px;
+  padding: 10px;
+  background-color: #554780;
+  border-radius: 20px;
+  display: flex;
+  cursor: pointer;
+  &_error{
+    border-bottom: 4px solid #c37070;
+  }
+
+  &_success{
+    border-bottom: 4px solid #63af63;
+  }
+  div{
+    //height: 100%;
+    margin: auto 5px;
+
+  }
+}

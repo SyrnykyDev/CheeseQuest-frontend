@@ -1,0 +1,32 @@
+// *** COMMON IMPORTS ***
+@import "../../../style";
+
+// *** DECLARATIVE PART ***
+$height: 70px;
+//$backGroundColor: green;
+
+.header{
+
+
+  height: $height;
+  background-color: $global;
+  width: 100%;
+  position: fixed;
+  display: flex;
+  z-index: 10;
+
+  &_rightPart{
+    margin: auto 20px auto auto;
+    display: flex;
+    gap: 10px;
+
+  }
+
+
+}
+.mockContainer{
+  display: block;
+  width: 100%;
+  height: $height;
+
+}

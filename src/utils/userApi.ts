@@ -5,7 +5,7 @@ export const authUser = async () => {
   console.log("tokentoken", token);
   return await axios
     // .get(process.env.REACT_APP_SERVER_HOST + "/users/auth", {
-    .get(process.env.REACT_APP_SERVER_HOST + "/api/auth", {
+    .get("http://localhost:8081" + "/api/auth", {
       headers: {
         "Content-type": "Application/json",
         Accept: "application/json",
@@ -27,7 +27,7 @@ export const fetchUser = async () => {
   console.log("tokentoken", token);
   // if (!token) return false;
   return await axios
-    .get(process.env.REACT_APP_SERVER_HOST + "/users/user", {
+    .get("http://localhost:8081" + "/users/user", {
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-type": "Application/json",

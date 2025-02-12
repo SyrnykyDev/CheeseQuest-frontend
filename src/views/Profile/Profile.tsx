@@ -46,7 +46,7 @@ const Profile = () => {
     formData.append("file", imageFile);
     setLoading(true);
     axios
-      .post(process.env.REACT_APP_SERVER_HOST + "/api/user/edit", formData, {
+      .post("http://localhost:8081" + "/api/user/edit", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -78,7 +78,7 @@ const Profile = () => {
 
   const onGetUser = () => {
     axios
-      .get(process.env.REACT_APP_SERVER_HOST + "/api/user", {
+      .get("http://localhost:8081" + "/api/user", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

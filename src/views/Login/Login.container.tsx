@@ -19,7 +19,7 @@ const LoginContainer = () => {
     setLoading(true);
 
     axios
-      .post(process.env.REACT_APP_SERVER_HOST + "/api/auth/login", values, {
+      .post("http://localhost:8081" + "/api/auth/login", values, {
         headers: {
           "Content-type": "Application/json",
           Accept: "application/json",

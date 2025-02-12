@@ -122,7 +122,7 @@ const EditQuizContainer = () => {
     formData.append("question", questions[activeQuestion].question);
     formData.append("answer", "[{},{},{},{},0]");
     axios
-      .post(process.env.REACT_APP_SERVER_HOST + "/api/task/create", formData, {
+      .post("http://localhost:8081" + "/api/task/create", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -153,7 +153,7 @@ const EditQuizContainer = () => {
     formData.append("description", questDesc);
     formData.append("media", imageFile);
     axios
-      .post(process.env.REACT_APP_SERVER_HOST + "/api/quest/create", formData, {
+      .post("http://localhost:8081" + "/api/quest/create", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

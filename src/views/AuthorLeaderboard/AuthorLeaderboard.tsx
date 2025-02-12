@@ -11,7 +11,7 @@ const AuthorLeaderboard = () => {
   const onGetState = () => {
     setLoading(true);
     axios
-      .get(process.env.REACT_APP_SERVER_HOST + "/api/authors")
+      .get("http://localhost:8081" + "/api/authors")
       .then((resp) => setState(resp?.data))
       .finally(() => {
         setLoading(false);

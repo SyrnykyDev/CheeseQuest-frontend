@@ -35,7 +35,7 @@ const QuizContainer = () => {
   };
   const onLoadQuiz = () => {
     axios
-      .get(process.env.REACT_APP_SERVER_HOST + "/api/quest/" + params?.id)
+      .get("http://localhost:8081" + "/api/quest/" + params?.id)
       .then((resp) => {
         console.log(resp.data);
         setQuiz(resp.data?.quest);
@@ -65,7 +65,7 @@ const QuizContainer = () => {
     setLoading(true);
     axios
       .post(
-        process.env.REACT_APP_SERVER_HOST + "/api/review/createReview",
+        "http://localhost:8081" + "/api/review/createReview",
         {
           message: commentText,
           questId: params?.id,

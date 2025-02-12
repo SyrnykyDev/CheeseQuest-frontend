@@ -10,12 +10,10 @@ const Home = () => {
   const [filteredQuests, setFilteredQuests] = useState();
 
   const onGetQuest = () => {
-    axios
-      .get(process.env.REACT_APP_SERVER_HOST + "/api/quests/all")
-      .then((resp) => {
-        setQuests(resp.data);
-        console.log(resp.data);
-      });
+    axios.get("http://localhost:8081" + "/api/quests/all").then((resp) => {
+      setQuests(resp.data);
+      console.log(resp.data);
+    });
   };
   useEffect(() => {
     onGetQuest();

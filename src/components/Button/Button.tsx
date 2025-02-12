@@ -1,12 +1,14 @@
-import React, {ButtonHTMLAttributes, HTMLAttributes, useEffect} from "react";
+import React, { ButtonHTMLAttributes, HTMLAttributes, useEffect } from "react";
 
 // *** STYLES ***
 import styles from "./Button.module.scss";
+import Loader from "../Loader/Loader.tsx";
 
-interface ButtonProps extends React.HTMLProps<HTMLButtonElement>{
+interface ButtonProps extends React.HTMLProps<HTMLButtonElement> {
   buttonType?: "sans" | "round";
   buttonColor?: "green" | "blue" | "orange" | "gray";
   active?: boolean;
+  loading?: boolean;
 }
 
 const Button = (props: ButtonProps) => {
@@ -15,6 +17,7 @@ const Button = (props: ButtonProps) => {
     active,
     buttonType = "sans",
     buttonColor = "green",
+    loading,
     ...otherProps
   } = props;
 
@@ -27,7 +30,7 @@ const Button = (props: ButtonProps) => {
     <div>
       {/*@ts-ignore*/}
       <button className={style} {...otherProps}>
-        {children}
+        {loading ? <Loader /> : children}
       </button>
     </div>
   );

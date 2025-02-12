@@ -52,6 +52,13 @@ const Header = () => {
                     Create Quest
                   </Button>
                   <Button
+                    onClick={() => {
+                      navigate("/profile");
+                    }}
+                  >
+                    Profile
+                  </Button>
+                  <Button
                     buttonColor={"blue"}
                     onClick={() => {
                       localStorage.removeItem("Authorization");

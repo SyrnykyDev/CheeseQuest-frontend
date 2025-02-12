@@ -68,7 +68,7 @@ export const userSlice = createSlice({
       console.log("action.payload", action.payload);
       if (action.payload?.username) state.user = action.payload?.username;
 
-      state.isAuthenticated = action.payload?.auth || false;
+      state.isAuthenticated = action.payload?.validated || false;
 
       state.firstFetch = true;
       state.loading = false;

@@ -22,6 +22,7 @@ const EditQuiz = ({ type }: IEditQuizProps) => {
       onQuestionDelete,
       onQuestionChange,
       onQuestionTypeChange,
+      onCreateQuiz,
     },
     states: { questions, activeQuestion },
   } = EditQuizContainer();
@@ -138,7 +139,13 @@ const EditQuiz = ({ type }: IEditQuizProps) => {
               </Button>
             </div>
             <div style={{ margin: "auto 10px auto auto" }}>
-              <Button>{type == "edit" ? "Edit" : "Create"}</Button>
+              <Button
+                onClick={() => {
+                  onCreateQuiz();
+                }}
+              >
+                {type == "edit" ? "Edit" : "Create"}
+              </Button>
             </div>
           </div>
         )}

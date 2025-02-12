@@ -12,6 +12,7 @@ import Login from "../views/Login/Login.tsx";
 import Register from "../views/Register/Register.tsx";
 import Profile from "../views/Profile/Profile.tsx";
 import CreateQuiz from "../views/CreateQuiz/CreateQuiz.tsx";
+import Home from "../views/Home/Home.tsx";
 
 const Routes = () => {
   const dispatch = useDispatch();
@@ -44,7 +45,14 @@ const Routes = () => {
               </>
             }
           />
-          <Route path="/" element={<>test</>} />
+          <Route
+            path="/"
+            element={
+              <>
+                <Home />
+              </>
+            }
+          />
 
           {/*--- PRIVATE ROUTES ---*/}
           <Route element={<PrivateRoute />}>

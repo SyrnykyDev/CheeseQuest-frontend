@@ -11,7 +11,7 @@ const RegisterContainer = () => {
   const navigate = useNavigate();
   const onRegister = (values: any) => {
     axios
-      .post(process.env.REACT_APP_SERVER_HOST + "/auth/register", values, {
+      .post(process.env.REACT_APP_SERVER_HOST + "/api/auth/register", values, {
         headers: {
           "Content-type": "Application/json",
           Accept: "application/json",

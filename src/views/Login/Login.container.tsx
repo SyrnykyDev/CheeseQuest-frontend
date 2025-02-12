@@ -3,19 +3,20 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { authUser } from "../../store/userSlice.ts";
 import { useDispatch } from "react-redux";
-// import {
-//   addNotification,
-//   authUser,
-// } from "../../../../../Jakob/my-app/src/store/userSlice.ts";
-
 const LoginContainer = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const onGoogleLogin = async () => {
+    window.location.href = "http://localhost:8080/oauth2/authorization/google";
+    // await fetch(
+    //   process.env.REACT_APP_SERVER_HOST + "/oauth2/authorization/google",
+    // );
+  };
   const onLogin = (values: any) => {
     axios
-      .post(process.env.REACT_APP_SERVER_HOST + "/auth/login", values, {
+      .post(process.env.REACT_APP_SERVER_HOST + "/api/auth/login", values, {
         headers: {
           "Content-type": "Application/json",
           Accept: "application/json",
@@ -24,7 +25,7 @@ const LoginContainer = () => {
       .then((resp) => {
         console.log(resp);
         if (resp.data) {
-          localStorage.setItem("Authorization", resp.data.token);
+          localStorage.setItem("Authorization", resp.data);
 
           // @ts-ignore
           dispatch(authUser());
@@ -48,7 +49,7 @@ const LoginContainer = () => {
       });
   };
   return {
-    functions: { setLoading, onLogin },
+    functions: { setLoading, onLogin, onGoogleLogin },
     states: { loading },
   };
 };

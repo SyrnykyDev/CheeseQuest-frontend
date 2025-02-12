@@ -9,13 +9,21 @@ interface InputProps extends React.InputHTMLAttributes<any> {
   inputType?: "sans" | "round";
   value?: string | number;
   required?: boolean;
+  isText?: boolean;
+  textedInput?: string;
 }
 
 /**
  * Extended default input
  **/
 const Input = (props: InputProps) => {
-  const { onChange, required, inputType = "sans", ...otherProps } = props;
+  const {
+    onChange,
+    required,
+    isText,
+    inputType = "sans",
+    ...otherProps
+  } = props;
 
   const [change, setChange] = useState(true);
   // const [state, setState] = useState("");
@@ -48,15 +56,19 @@ const Input = (props: InputProps) => {
     <div className={`${styles.input} ${styles[`input_${inputType}`]}`}>
       {props?.title && <span>{props.title}</span>}
 
-      <input
-        className={`${styles.input_input} ${change ? styles.input_anim : ""}`}
-        {...otherProps}
-        placeholder={
-          props?.placeholder && `${props?.placeholder} ${required ? "*" : ""}`
-        }
-        value={props.value || ""}
-        onChange={onMiddleChange}
-      />
+      {isText ? (
+        <span>{otherProps?.textedInput}</span>
+      ) : (
+        <input
+          className={`${styles.input_input} ${change ? styles.input_anim : ""}`}
+          {...otherProps}
+          placeholder={
+            props?.placeholder && `${props?.placeholder} ${required ? "*" : ""}`
+          }
+          value={props.value || ""}
+          onChange={onMiddleChange}
+        />
+      )}
     </div>
   );
 };

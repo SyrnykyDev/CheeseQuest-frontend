@@ -1,6 +1,6 @@
-
 import { useEffect, useState } from "react";
 import RandomNumber from "../../utils/randomNumber";
+import axios from "axios";
 
 export type questionTypes =
   | "openAnswers"
@@ -17,6 +17,8 @@ interface IQuestion {
   type?: questionTypes;
 }
 const EditQuizContainer = () => {
+  const token = localStorage.getItem("Authorization");
+
   const [activeQuestion, setActiveQuestion] = useState<null | number>(null);
   const [questions, setQuestions] = useState<IQuestion[]>([
     // {
@@ -88,6 +90,24 @@ const EditQuizContainer = () => {
     onQuestionChange("type", value);
   };
 
+  const onCreateQuiz = () => {
+    axios
+      .post(
+        process.env.REACT_APP_SERVER_HOST + "/api/quest/create",
+        {
+          name: "TITLE Dmytro",
+          description: "Description",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      )
+      .then((resp) => {
+        console.log(resp);
+      });
+  };
   return {
     functions: {
       onAddQuestion,
@@ -95,6 +115,7 @@ const EditQuizContainer = () => {
       onQuestionDelete,
       onQuestionChange,
       onQuestionTypeChange,
+      onCreateQuiz,
     },
     states: { questions, activeQuestion },
   };

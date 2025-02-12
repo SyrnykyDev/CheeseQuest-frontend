@@ -20,7 +20,7 @@ const Login = () => {
 
   const {
     states: { loading },
-    functions: { onLogin, setLoading },
+    functions: { onLogin, setLoading, onGoogleLogin },
   } = LoginContainer();
 
   if (user.isAuthenticated) {
@@ -49,7 +49,7 @@ const Login = () => {
           <Form style={{ margin: "auto" }}>
             <SansWrapper centered>
               <h1 style={{ color: "black" }}>Sign In</h1>
-              <Button buttonColor={"gray"}>
+              <Button buttonColor={"gray"} onClick={onGoogleLogin}>
                 <img src={googleSVG} alt={"Google Icon"} width={30} />
                 Sign in with Google
               </Button>

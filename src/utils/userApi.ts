@@ -4,13 +4,13 @@ export const authUser = async () => {
   const token = localStorage.getItem("Authorization");
   console.log("tokentoken", token);
   return await axios
-    .get(process.env.REACT_APP_SERVER_HOST + "/users/auth", {
+    // .get(process.env.REACT_APP_SERVER_HOST + "/users/auth", {
+    .get(process.env.REACT_APP_SERVER_HOST + "/api/auth", {
       headers: {
-        "Access-Control-Allow-Origin": "*",
         "Content-type": "Application/json",
         Accept: "application/json",
 
-        Authorization: `${token}`,
+        Authorization: `Bearer ${token}`,
       },
     })
     .then((response) => {

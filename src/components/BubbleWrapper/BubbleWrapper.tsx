@@ -4,9 +4,11 @@ import styles from "./BubbleWrapper.module.scss";
 const BubbleWrapper = ({
   children,
   centered = true,
+  // active = true,
 }: {
   children: ReactNode;
   centered?: boolean;
+  active?: boolean;
 }) => {
   return (
     <div

@@ -11,6 +11,7 @@ import axios from "axios";
 import Input from "../../components/Input/Input.tsx";
 import { Form } from "formik";
 import Loader from "../../components/Loader/Loader.tsx";
+import MotionWrapper from "../../components/MotionWrapper/MotionWrapper.tsx";
 
 const Profile = () => {
   // const user = useSelector((state: RootState) => state.user);
@@ -91,17 +92,41 @@ const Profile = () => {
       <div className={styles.profile}>
         <>
           <h1 style={{ display: "flex", gap: "15px", alignItems: "center" }}>
-            <img
-              src={user?.avatar}
-              className={styles.profile_img}
-              onLoad={() => setLoading(false)}
-              // alt={profileTest}
-              width={60}
-              height={60}
+            <div
+              style={{
+                position: "relative",
+                cursor: isEditing ? "pointer" : "auto",
+              }}
               onClick={() => {
                 isEditing && handleImageUploadClick();
               }}
-            />
+            >
+              <img
+                src={imageFile || user?.avatar}
+                className={styles.profile_img}
+                // onLoad={() => setLoading(false)}
+                // alt={profileTest}
+                width={60}
+                height={60}
+              />
+              {isEditing && (
+                <MotionWrapper
+                  style={{
+                    position: "absolute",
+                    right: "-10px",
+                    top: "-10px",
+                    backgroundColor: "white",
+                    padding: "1px",
+                    borderRadius: "100px",
+                    width: "max-content",
+                    height: "max-content",
+                    border: "1px solid black",
+                  }}
+                >
+                  <img src={editSVG} alt={"Edit user"} />
+                </MotionWrapper>
+              )}
+            </div>
             {/*{user?.username}*/}
             {isOwner ? (
               <div style={{ display: "flex", alignItems: "end", gap: "20px" }}>

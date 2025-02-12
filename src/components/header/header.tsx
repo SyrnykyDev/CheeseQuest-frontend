@@ -36,7 +36,6 @@ const Header = () => {
                 <Link href={"/login"}>
                   <Button buttonColor={"blue"}>Log In</Button>
                 </Link>
-                <Button buttonColor={"orange"}>Log In</Button>
               </>
             ) : (
               <>

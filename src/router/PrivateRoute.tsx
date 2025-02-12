@@ -2,7 +2,7 @@ import React from "react";
 
 import { Navigate, Outlet } from "react-router";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../../Jakob/my-app/src/store/store.ts";
+import { RootState } from "../store/store.ts";
 
 interface PrivateRouteProps {
   // isAuthenticated: boolean;

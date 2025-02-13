@@ -1,7 +1,9 @@
 # Cheese Quest
 
-This project created with ReactJs
+This project created with React\
 Demo: http://193.160.226.130:3002/
+
+Figma: [https://www.figma.com/design/CheeseQuest](https://www.figma.com/design/BwEwC1zU9j9OTcINrIsWLN/CheeseQuest?node-id=0-1&t=UhzUHufnF2kgOvkZ-1)
 
 Backend repository: https://github.com/SyrnykyDev/CheeseQuest
 
